@@ -28,6 +28,8 @@ import org.openjdk.jmh.infra.Blackhole;
 public class ForEachExpensive
 {
     final List<String> list = new ArrayList<>();
+    String[] array = null;
+
     
     @Param({"1", "10", "100", "1000"})
     int length;
@@ -35,12 +37,38 @@ public class ForEachExpensive
     @Setup
     public void setup()
     {
+        array = new String[length];
+
         for (int i = 0; i < length; i++)
         {
-            list.add(MessageFormat.format("{0},{0},{0},{0},{0},{0}", String.valueOf(i)));
+            final String entry = MessageFormat.format("{0},{0},{0},{0},{0},{0}", String.valueOf(i));
+            array[i] = entry;
+            list.add(entry);
         }
     }
 
+    @Benchmark
+    public void arrayFor(Blackhole bh)
+    {
+        int result = 0;
+        for (int i = 0; i < array.length; i++)
+        {
+            final String s = array[i];
+            if (s.startsWith("5"))
+            {
+                continue;
+            }
+            
+            final String[] a = s.split(",");
+            for (int j = 0; j < a.length; j++)
+            {
+                result += Integer.valueOf(a[j]);
+            }
+        }
+        
+        bh.consume(result);
+    }
+    
     @Benchmark
     public void classicFor(Blackhole bh)
     {
