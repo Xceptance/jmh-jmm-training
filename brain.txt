@@ -1,0 +1,31 @@
+clear; mvn clean install; java -Xms2g -Xmx2g -XX:+AlwaysPreTouch -jar target/benchmarks.jar StackVsHeap -prof gc
+
+# -XX:+PrintGCDetails
+# -XX:+PrintGCDateStamps
+# -XX:+PrintGCTimeStamps
+# -XX:+PrintGCApplicationStoppedTime
+
+-XX:+UnlockDiagnosticVMOptions -XX:-DoEscapeAnalysis
+
+-XX:+UnlockDiagnosticVMOptions -XX:CompileCommand=print,*LongBoom.inc
+
+-XX:+UnlockDiagnosticVMOptions -XX:+PrintInlining
+-XX:+PrintAssembly
+
+Range Check Elimination - eliminates range checks for loop-invariant arrays. See PhaseIdealLoop::do_range_check for details. The optimization is controlled by the flag -XX:+RangeCheckElimination
+Loop Peeling - splits first iteration from the loop and performs it outside of the loop body. See amazing description here PhaseIdealLoop::do_peeling. This optimization is controlled by the flag -XX:PartialPeelLoop=true
+Loop Predication - eliminates the condition checks from inside the loop body. Currently, loop predication optimization has been applied to remove array range check and loop invariant checks (such as null checks and array checks). Loop predication is controlled by the -XX:+UseLoopPredicate. See code PhaseIdealLoop::loop_predication_impl
+Loop Unrolling - is used as first step of Superword Level Parallelism. See PhaseIdealLoop::do_unroll. Loop unrolling is controlled by the following properties: -XX:LoopMaxUnroll=16 and -XX:LoopUnrollMin=4
+Array Filling - replaces any fill patterns with an intrisc. See PhaseIdealLoop::do_intrinsify_fill. JVM option -XX:+OptimizeFill
+Vectorization - replaces array initialization, copy and arithmetic with vector operations in unrolled loops. The Hotspot compiler implements the concept of Superword Level Parallelism in superword.cpp. See also JVM option -XX:+UseSuperWord
+
+IDEAS
+=====
+Map: ifPresent/ifAbsent
+Regex compile
+File exists or other kernel call
+
+forEach
+
+TreeMap vs. sorted Array
+
