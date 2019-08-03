@@ -1,4 +1,4 @@
-package org.sample;
+package org.sample.poor;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -13,6 +13,7 @@ import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
+import org.sample.Timer;
 
 @State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
@@ -20,7 +21,7 @@ import org.openjdk.jmh.annotations.Warmup;
 @Warmup(iterations = 0, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 20, time = 10, timeUnit = TimeUnit.MILLISECONDS)
 @Fork(1)
-public class PoorMansBenchmark2
+public class PoorMansBenchmarkAsJMH
 {
     private static String append()
     {
