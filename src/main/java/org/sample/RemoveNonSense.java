@@ -1,11 +1,14 @@
 package org.sample;
 
-public class AllocationTrap
+public class RemoveNonSense
 {
-    private final static int OUTER = 1250;
-    private final static int SIZE = 1000;
-    private static Object o = null;
+    private final static int OUTER = 1000;
+    private final static int SIZE = 5;
     
+    /**
+     * Vary SIZE from 1 to 10000    
+     * @param args
+     */
     public static void main(String[] args)
     {
         final long [] timers = new long[OUTER];
@@ -18,12 +21,11 @@ public class AllocationTrap
             
             for (int j = 0; j < SIZE; j++)
             {
-                // burn time and train that null is normal
                 o = new Object();
                 
                 if (trap != null)
                 {
-                    System.out.println("Got you." + o);
+                    o = new Object();
                     trap = null;
                 }
             }

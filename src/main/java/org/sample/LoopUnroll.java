@@ -41,9 +41,14 @@ public class LoopUnroll
         }
     }
     
-    private int next()
+    /**
+     * This is a random function call but with a fixed result
+     * @param size
+     * @return
+     */
+    private int next(int size)
     {
-        int i = r.nextInt(1) + 1;
+        int i = r.nextInt(1) + size;
         return i;
     }
     
@@ -51,11 +56,11 @@ public class LoopUnroll
     public int classic()
     {
         int sum = 0;
-        int step = next();
+        int step = next(1);
         for (int i = 0; i < ints.length; i = i + 1)
         {
             sum += ints[i];
-            step = next();
+            step = next(1);
         }
         return sum + step;
     }
@@ -64,13 +69,12 @@ public class LoopUnroll
     public int variable()
     {
         int sum = 0;
-        int step = next();
+        int step = next(1);
         for (int i = 0; i < ints.length; i = i + step)
         {
             sum += ints[i];
-            step = next();
+            step = next(1);
         }
         return sum + step;
     }
-
 }

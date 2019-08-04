@@ -1,5 +1,6 @@
 package org.sample;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -53,6 +54,11 @@ public class IntrinsicsArrayCopy_AverageTime
         
         return target;
     }
+
+    public int[] arraysCopy()
+    {
+        return Arrays.copyOf(src, src.length);
+    }
     
     @Benchmark
     public int[] manual()
@@ -66,5 +72,9 @@ public class IntrinsicsArrayCopy_AverageTime
         return systemArrayCopy();
     }
     
-    
+    @Benchmark
+    public int[] arrays()
+    {
+        return arraysCopy();
+    }    
 }
