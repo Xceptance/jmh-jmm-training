@@ -9,6 +9,7 @@ import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
@@ -22,13 +23,16 @@ import org.openjdk.jmh.annotations.Warmup;
 @Fork(1)
 public class Matrix
 {
-    final int SIZE = 1000;
-    final int[][] src = new int[SIZE][SIZE];
-    
+    @Param({"1", "10", "100", "1000"})
+    int SIZE;
+    int[][] src;
+
     @Setup
     public void setup()
     {
-        Random r = new Random(1L);
+        src = new int[SIZE][SIZE];
+
+        final Random r = new Random(1L);
         for (int i = 0; i < SIZE; i++)
         {
             for (int j = 0; j < SIZE; j++)
@@ -66,5 +70,17 @@ public class Matrix
         return sum;
     }
     
-    
+    @Benchmark
+    public int horizontalBackwards()
+    {
+        int sum = 0;
+        for (int i = SIZE - 1; i >=0; i--)
+        {
+            for (int j = SIZE - 1; j >= 0; j--)
+            {
+                sum += src[i][j];
+            }
+        }
+        return sum;
+    }
 }

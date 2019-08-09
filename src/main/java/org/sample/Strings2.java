@@ -59,24 +59,24 @@ public class Strings2
     {    
         return new StringBuilder().append("a").append(foo()).toString();
     }
-
-    @Benchmark
-    public String builderFull()
-    {    
-         final StringBuilder sb = new StringBuilder();
-         sb.append("a");
-         sb.append(foo());
-         return sb.toString();
-    }
     
     @Benchmark
     public String builderSized()
     {    
         return new StringBuilder(128).append("a").append(foo()).toString();
     }
+    
+    @Benchmark
+    public String builderNonFluid()
+    {    
+         final StringBuilder sb = new StringBuilder();
+         sb.append("a");
+         sb.append(foo());
+         return sb.toString();
+    }
 
     @Benchmark
-    public String builderFullSized()
+    public String builderNonFluidSized()
     {    
         final StringBuilder sb = new StringBuilder(128);
         sb.append("a");

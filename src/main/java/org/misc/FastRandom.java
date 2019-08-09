@@ -1,13 +1,14 @@
 package org.misc;
 
-import java.util.Random;
-
 /**
  * Ultra-fast pseudo random generator that is not synchronized!
+ * Don't use anything from Random by inheritance, this will inherit 
+ * a volatile!
+ * 
  * @author rschwietzke
  *
  */
-public class FastRandom extends Random
+public class FastRandom
 {
     private static final long serialVersionUID = 1L;
     private long seed;
@@ -34,5 +35,34 @@ public class FastRandom extends Random
         x &= ((1L << nbits) -1);
         
         return (int) x;
+    }
+    
+    /**
+     * Borrowed from the JDK
+     * 
+     * @param bound
+     * @return
+     */
+    public int nextInt(int bound) {
+
+        int r = next(31);
+        int m = bound - 1;
+        if ((bound & m) == 0)  // i.e., bound is a power of 2
+            r = (int)((bound * (long)r) >> 31);
+        else {
+            for (int u = r;
+                 u - (r = u % bound) + m < 0;
+                 u = next(31))
+                ;
+        }
+        return r;
+    }
+    
+    /**
+     * Borrowed from the JDK
+     * @return
+     */
+    public int nextInt() {
+        return next(32);
     }
 }

@@ -1,23 +1,21 @@
 package org.sample;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Test;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.annotations.OperationsPerInvocation;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
-import org.openjdk.jmh.infra.Blackhole;
 
 @Warmup(iterations = 2, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 2, time = 2, timeUnit = TimeUnit.SECONDS)
@@ -26,7 +24,7 @@ import org.openjdk.jmh.infra.Blackhole;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Thread)
-public class BranchPrediction
+public class BranchPrediction2
 {
     private static final int COUNT = 10_000;
 
@@ -41,7 +39,7 @@ public class BranchPrediction
         
         for (int i = 0; i < COUNT; i++)
         {
-            final int d = r.nextInt(100) - 50;
+            final int d = i % 2 == 0 ? -r.nextInt(5) - 1 : r.nextInt(5) + 1;  
             sorted[i] = d;
             unsorted[i] = d;
         }        
@@ -53,37 +51,54 @@ public class BranchPrediction
         }
     }
 
-    public void doIt(int[] array, Blackhole bh1, Blackhole bh2)
+    @Test
+    public void test()
     {
+        setup();
+        int a = doIt(sorted);
+        int b = doIt(unsorted);
+        int c = doIt(reversed);
+        
+        System.out.printf("%d, %d, %d", a, b, c);
+    }
+    
+    public int doIt(int[] array)
+    {
+        int sum = 0;
+        int l = 0;
         for (int v : array)
         {
             if (v > 0)
             {
-                bh1.consume(v);
+                l += (String.valueOf(v) + "a").length(); 
+                sum += v;
             }
             else
             {
-                bh2.consume(v);
+                l += (String.valueOf(v) + "b").length(); 
+                sum += v;
             }
         }
+        
+        return sum + l;
     }
     
     
     @Benchmark
-    public void sorted(Blackhole bh1, Blackhole bh2)
+    public int _1sorted()
     {
-        doIt(sorted, bh1, bh2);
+        return doIt(sorted);
     }
 
     @Benchmark
-    public void unsorted(Blackhole bh1, Blackhole bh2)
+    public int _2unsorted()
     {
-        doIt(unsorted, bh1, bh2);
+        return doIt(unsorted);
     }
 
     @Benchmark
-    public void reversed(Blackhole bh1, Blackhole bh2)
+    public int _3reversed()
     {
-        doIt(reversed, bh1, bh2);
+        return doIt(reversed);
     }
 }

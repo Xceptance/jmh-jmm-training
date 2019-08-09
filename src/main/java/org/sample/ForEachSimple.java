@@ -56,6 +56,18 @@ public class ForEachSimple
     }
  
     @Benchmark
+    public void arrayEnhanced(Blackhole bh)
+    {
+        int result = 0;
+        for (String s : array)
+        {
+            result += s.length();
+        }
+        
+        bh.consume(result);
+    }
+    
+    @Benchmark
     public void classicFor(Blackhole bh)
     {
         int result = 0;

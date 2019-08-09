@@ -48,7 +48,13 @@ public class Strings1
     }
 
     @Benchmark
-    public String builderFull()
+    public String builderSized()
+    {    
+        return new StringBuilder(32).append("a").append(foo).toString();
+    }
+    
+    @Benchmark
+    public String builderNonFluid()
     {    
          final StringBuilder sb = new StringBuilder();
          sb.append("a");
@@ -57,13 +63,7 @@ public class Strings1
     }
     
     @Benchmark
-    public String builderSized()
-    {    
-        return new StringBuilder(32).append("a").append(foo).toString();
-    }
-
-    @Benchmark
-    public String builderFullSized()
+    public String builderNonFluidSized()
     {    
         final StringBuilder sb = new StringBuilder(32);
         sb.append("a");

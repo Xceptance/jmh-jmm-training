@@ -70,6 +70,27 @@ public class ForEachExpensive
     }
     
     @Benchmark
+    public void arrayEnhanced(Blackhole bh)
+    {
+        int result = 0;
+        for (String s : array)
+        {
+            if (s.startsWith("5"))
+            {
+                continue;
+            }
+            
+            final String[] a = s.split(",");
+            for (int j = 0; j < a.length; j++)
+            {
+                result += Integer.valueOf(a[j]);
+            }
+        }
+        
+        bh.consume(result);
+    }    
+    
+    @Benchmark
     public void classicFor(Blackhole bh)
     {
         int result = 0;
@@ -138,23 +159,5 @@ public class ForEachExpensive
         bh.consume(result);
     } 
 
-    /*
-    ForEachExpensive.classicFor                  1  avgt    2     232.843          ns/op
-    ForEachExpensive.classicFor                 10  avgt    2    2060.264          ns/op
-    ForEachExpensive.classicFor                100  avgt    2   21705.958          ns/op
-    ForEachExpensive.classicFor               1000  avgt    2  244277.931          ns/op
-    ForEachExpensive.enhancedFor                 1  avgt    2     222.465          ns/op
-    ForEachExpensive.enhancedFor                10  avgt    2    2123.579          ns/op
-    ForEachExpensive.enhancedFor               100  avgt    2   22203.045          ns/op
-    ForEachExpensive.enhancedFor              1000  avgt    2  249561.558          ns/op
-    ForEachExpensive.lamdaStream                 1  avgt    2     352.786          ns/op
-    ForEachExpensive.lamdaStream                10  avgt    2    2492.908          ns/op
-    ForEachExpensive.lamdaStream               100  avgt    2   25046.700          ns/op
-    ForEachExpensive.lamdaStream              1000  avgt    2  273181.221          ns/op
-    ForEachExpensive.parallelLamdaStream         1  avgt    2     375.847          ns/op
-    ForEachExpensive.parallelLamdaStream        10  avgt    2   11468.792          ns/op
-    ForEachExpensive.parallelLamdaStream       100  avgt    2   25909.986          ns/op
-    ForEachExpensive.parallelLamdaStream      1000  avgt    2  225207.607          ns/op
-    */
 
 }
