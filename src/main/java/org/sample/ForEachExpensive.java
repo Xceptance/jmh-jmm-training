@@ -31,7 +31,7 @@ public class ForEachExpensive
     String[] array = null;
 
     
-    @Param({"1", "10", "100", "1000"})
+    @Param({"1000", "10000", "100000"})
     int length;
     
     @Setup
