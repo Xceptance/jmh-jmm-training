@@ -21,7 +21,7 @@ import org.openjdk.jmh.annotations.Warmup;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Thread)
-public class MegaMorphicSimple
+public class MegaMorphicDefault
 {
     private Random random = new Random(1L);
 
@@ -96,13 +96,10 @@ public class MegaMorphicSimple
         }
     }
     
-    static interface C { public int apply(int x); }
-    static class C1 implements C { @Override
-    public int apply(int x){ return x * x; }};
-    static class C2 implements C { @Override
-    public int apply(int x){ return x * x; }};
-    static class C3 implements C { @Override
-    public int apply(int x){ return x * x; }};
-    static class C4 implements C { @Override
-    public int apply(int x){ return x * x; }};
+
+    static interface C { default int apply(int x){ return x * x; }};
+    static class C1 implements C {};
+    static class C2 implements C {};
+    static class C3 implements C {};
+    static class C4 implements C {};
 }

@@ -15,16 +15,15 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
-import org.openjdk.jmh.infra.Blackhole;
 
-@Warmup(iterations = 2, time = 4, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 2, time = 2, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 2, time = 5, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
 @Threads(1)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Thread)
-public class MegaMorphicLoop
+public class MegaMorphicArray
 {
     private static final int COUNT = 20_000;
     private C[] array = new C[COUNT];
@@ -32,15 +31,10 @@ public class MegaMorphicLoop
     @Param({"1", "2", "3", "4"})
     int params;
     
-    private final static C1 c1 = new C1();
-    private final static C2 c2 = new C2();
-    private final static C3 c3 = new C3();
-    private final static C4 c4 = new C4();
-    
     @Setup
     public void setup()
     {
-        final Random r = new Random(1L);
+        final Random r = new Random(42L);
         
         for (int x = 0; x < COUNT; x++)
         {
@@ -48,19 +42,19 @@ public class MegaMorphicLoop
             
             if (i == 0)
             {
-                array[x] = c1;
+                array[x] = new C1();
             }
             else if (i == 1)
             {
-                array[x] = c2;
+                array[x] = new C2();
             }
             else if (i == 2)
             {
-                array[x] = c3;
+                array[x] = new C3();
             }
             else if (i == 3)
             {
-                array[x] = c4;
+                array[x] = new C4();
             }
             else
             {
@@ -109,11 +103,23 @@ public class MegaMorphicLoop
         return sum;
     }
 
-    
-    
     static interface C { public int apply(int x); }
-    static class C1 implements C { public int apply(int x){ return x * x; }};
-    static class C2 implements C { public int apply(int x){ return x * x; }};
-    static class C3 implements C { public int apply(int x){ return x * x; }};
-    static class C4 implements C { public int apply(int x){ return x * x; }};
+    
+    static class C1 implements C { 
+        @Override
+        public int apply(int x) { return x * x; }
+    };
+    static class C2 implements C { 
+        @Override
+        public int apply(int x) { return x * x; }
+    };
+    static class C3 implements C { 
+        @Override
+        public int apply(int x) { return x * x; }
+    };
+    static class C4 implements C { 
+        @Override
+        public int apply(int x) { return x * x; }
+    };
+
 }

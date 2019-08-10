@@ -21,12 +21,12 @@ import org.openjdk.jmh.annotations.Warmup;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Thread)
-public class MegaMorphicSimple
+public class MegaMorphicLargeMethod
 {
     private Random random = new Random(1L);
 
     @Benchmark
-    public int _1_mono()
+    public String _1_mono()
     {
         C c = null;
         int r = random.nextInt(4);
@@ -40,7 +40,7 @@ public class MegaMorphicSimple
     }
 
     @Benchmark
-    public int _2_bi()
+    public String _2_bi()
     {
         C c = null;
         int r = random.nextInt(4);
@@ -54,7 +54,7 @@ public class MegaMorphicSimple
     }
 
     @Benchmark
-    public int _4_mega()
+    public String _4_mega()
     {
         C c = null;
         int r = random.nextInt(4);
@@ -68,7 +68,7 @@ public class MegaMorphicSimple
     }
 
     @Benchmark
-    public int _5_manualDispatch()
+    public String _5_manualDispatch()
     {
         C c = null;
         int r = random.nextInt(4);
@@ -96,13 +96,70 @@ public class MegaMorphicSimple
         }
     }
     
-    static interface C { public int apply(int x); }
-    static class C1 implements C { @Override
-    public int apply(int x){ return x * x; }};
-    static class C2 implements C { @Override
-    public int apply(int x){ return x * x; }};
-    static class C3 implements C { @Override
-    public int apply(int x){ return x * x; }};
-    static class C4 implements C { @Override
-    public int apply(int x){ return x * x; }};
+
+    static interface C 
+    { 
+        public String apply(int x);
+    }
+    
+    static class C1 implements C 
+    {
+        long a = System.currentTimeMillis();
+        
+        @Override
+        public String apply(int x)
+        { 
+            long b = a * x;
+            
+            final String xs1 = String.valueOf(b).toLowerCase().replace("[1-4]", "0"); 
+            final String xs2 = String.valueOf(b).toUpperCase().replace("[5-8]ab", "1");
+            
+            return xs1 + xs2;
+        }        
+    }
+    static class C2 implements C 
+    {
+        long a = System.currentTimeMillis();
+        
+        @Override
+        public String apply(int x)
+        { 
+            long b = a * x;
+            
+            final String xs1 = String.valueOf(b).toLowerCase().replace("[1-4]", "0"); 
+            final String xs2 = String.valueOf(b).toUpperCase().replace("[5-8]ab", "1");
+            
+            return xs1 + xs2;
+        }        
+    }
+    static class C3 implements C 
+    {
+        long a = System.currentTimeMillis();
+        
+        @Override
+        public String apply(int x)
+        { 
+            long b = a * x;
+            
+            final String xs1 = String.valueOf(b).toLowerCase().replace("[1-4]", "0"); 
+            final String xs2 = String.valueOf(b).toUpperCase().replace("[5-8]ab", "1");
+            
+            return xs1 + xs2;
+        }        
+    }
+    static class C4 implements C 
+    {
+        long a = System.currentTimeMillis();
+        
+        @Override
+        public String apply(int x)
+        { 
+            long b = a * x;
+            
+            final String xs1 = String.valueOf(b).toLowerCase().replace("[1-4]", "0"); 
+            final String xs2 = String.valueOf(b).toUpperCase().replace("[5-8]ab", "1");
+            
+            return xs1 + xs2;
+        }        
+    }
 }
