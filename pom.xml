@@ -33,17 +33,12 @@ THE POSSIBILITY OF SUCH DAMAGE.
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.xceptance</groupId>
-    <artifactId>jmm</artifactId>
+    <groupId>org.xceptance</groupId>
+    <artifactId>jmh-jmm-training</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>JMM benchmark samples</name>
-
-    <!--
-       This is the demo/sample template build script for building Java benchmarks with JMH.
-       Edit as needed.
-    -->
+    <name>JMH Samples for JMM and Java Memory Management</name>
 
     <dependencies>
         <dependency>
@@ -58,13 +53,6 @@ THE POSSIBILITY OF SUCH DAMAGE.
             <scope>provided</scope>
         </dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.chrisnewland/jitwatch -->
-		<dependency>
-			<groupId>com.chrisnewland</groupId>
-			<artifactId>jitwatch</artifactId>
-			<version>1.1.5</version>
-		</dependency>
-        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -75,24 +63,6 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		    <groupId>org.openjdk.jol</groupId>
 		    <artifactId>jol-core</artifactId>
 		    <version>0.9</version>
-        </dependency>
-   
-      <dependency>
-          <groupId>org.javolution</groupId>
-          <artifactId>javolution-core-java</artifactId>
-          <version>6.0.0</version>
-      </dependency>
-        
-		<dependency>
-			<groupId>net.sf.trove4j</groupId>
-			<artifactId>trove4j</artifactId>
-			<version>3.0.3</version>
-		</dependency>
-
-        <dependency>
-            <groupId>it.unimi.dsi</groupId>
-            <artifactId>fastutil</artifactId>
-            <version>8.2.1</version>
         </dependency>
          
     </dependencies>
