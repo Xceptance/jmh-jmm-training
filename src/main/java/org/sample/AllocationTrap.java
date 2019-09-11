@@ -28,6 +28,7 @@ public class AllocationTrap
                 }
             }
                 
+            // Important: 350 and 400 creates different results... fun...!
             if (i == 500)
             {
                 trap = new Object();

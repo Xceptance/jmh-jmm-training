@@ -24,7 +24,7 @@ import org.openjdk.jmh.annotations.Warmup;
 public class LoopUnroll
 {
     @Param({"10000"})
-    int size;
+    int size = 10;
     
     private FastRandom r = new FastRandom(7L);
     
@@ -48,7 +48,7 @@ public class LoopUnroll
      */
     private int next(int size)
     {
-        int i = r.nextInt(1) + size;
+        final int i = r.nextInt(1) + size;
         return i;
     }
     
@@ -77,4 +77,31 @@ public class LoopUnroll
         }
         return sum + step;
     }
+    
+    @Benchmark
+    public int classic2()
+    {
+        int sum = 0;
+        int step = next(10);
+        for (int i = 0; i < ints.length; i = i + 10)
+        {
+            sum += ints[i];
+            step = next(10);
+        }
+        return sum + step;
+    }
+    
+    @Benchmark
+    public void variable2()
+    {
+        int sum = 0;
+        int step = next(10);
+        for (int i = 0; i < ints.length; i = i + step)
+        {
+            sum += ints[i];
+            step = next(10);
+        }
+        int i = sum + step;
+    }    
+    
 }

@@ -88,7 +88,7 @@ public class Lambda02
     }
 
     @Benchmark
-    public void simple(Blackhole bh)
+    public void forSimple(Blackhole bh)
     {
         bh.consume(fix());
     }

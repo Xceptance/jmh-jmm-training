@@ -12,7 +12,7 @@ public class RandomUtils
      * @param length
      * @return
      */
-    public static String randomString(FastRandom random, final int length)
+    public static String randomString(final FastRandom random, final int length)
     {
         return randomString(random, length, length);
     }

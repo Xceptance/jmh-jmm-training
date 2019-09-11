@@ -1,7 +1,6 @@
 package org.sample;
 
 import java.util.Arrays;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
@@ -19,6 +18,7 @@ import org.openjdk.jmh.annotations.Warmup;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
+@Measurement(iterations = 5, time = 10, timeUnit = TimeUnit.MILLISECONDS)
 @Fork(1)
 public class Lambda01
 {
@@ -36,16 +36,14 @@ public class Lambda01
     
     // ==========================================================================
     @Benchmark
-    @Warmup(iterations = 1, batchSize = 1)
-    @Measurement(iterations = 5, time = 10, timeUnit = TimeUnit.MILLISECONDS)
+    @Warmup(iterations = 0, batchSize = 1)
     public int lambdaArrayCold()
     {
         return Arrays.stream(integers).filter(i -> i % 2 == 0).sum();
     }
 
     @Benchmark
-    @Warmup(iterations = 2, time = 5, timeUnit = TimeUnit.SECONDS)
-    @Measurement(iterations = 5, time = 10, timeUnit = TimeUnit.MILLISECONDS)
+    @Warmup(iterations = 2, time = 2, timeUnit = TimeUnit.SECONDS)
     public int lambdaArrayHot()
     {
         return Arrays.stream(integers).filter(i -> i % 2 == 0).sum();
@@ -53,16 +51,14 @@ public class Lambda01
 
     // ==========================================================================
     @Benchmark
-    @Warmup(iterations = 1, batchSize = 1)
-    @Measurement(iterations = 5, time = 10, timeUnit = TimeUnit.MILLISECONDS)
+    @Warmup(iterations = 0, batchSize = 1)
     public int lambdaIntStreamCold()
     {
         return IntStream.range(0, SIZE).filter(i -> i % 2 == 0).sum();
     }
 
     @Benchmark
-    @Warmup(iterations = 2, time = 5, timeUnit = TimeUnit.SECONDS)
-    @Measurement(iterations = 5, time = 10, timeUnit = TimeUnit.MILLISECONDS)
+    @Warmup(iterations = 2, time = 2, timeUnit = TimeUnit.SECONDS)
     public int lambdaIntStreamHot()
     {
         return IntStream.range(0, SIZE).filter(i -> i % 2 == 0).sum();
@@ -70,8 +66,7 @@ public class Lambda01
     
     // ==========================================================================
     @Benchmark
-    @Warmup(iterations = 1, batchSize = 1)
-    @Measurement(iterations = 5, time = 10, timeUnit = TimeUnit.MILLISECONDS)
+    @Warmup(iterations = 0, batchSize = 1)
     public int loopCold()
     {
         int sum = 0;
@@ -87,8 +82,7 @@ public class Lambda01
     }
 
     @Benchmark
-    @Warmup(iterations = 2, time = 5, timeUnit = TimeUnit.SECONDS)
-    @Measurement(iterations = 5, time = 10, timeUnit = TimeUnit.MILLISECONDS)
+    @Warmup(iterations = 2, time = 2, timeUnit = TimeUnit.SECONDS)
     public int loopHot()
     {
         int sum = 0;
