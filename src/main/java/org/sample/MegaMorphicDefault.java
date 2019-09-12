@@ -90,7 +90,7 @@ public class MegaMorphicDefault
         {
             return ((C3) c).apply(r);            
         }
-        else
+        else 
         {
             return ((C4) c).apply(r);            
         }
