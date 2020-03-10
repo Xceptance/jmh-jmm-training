@@ -19,6 +19,21 @@ Loop Unrolling - is used as first step of Superword Level Parallelism. See Phase
 Array Filling - replaces any fill patterns with an intrisc. See PhaseIdealLoop::do_intrinsify_fill. JVM option -XX:+OptimizeFill
 Vectorization - replaces array initialization, copy and arithmetic with vector operations in unrolled loops. The Hotspot compiler implements the concept of Superword Level Parallelism in superword.cpp. See also JVM option -XX:+UseSuperWord
 
+Filtering Output
+================
+The -XX:+PrintAssembly option prints everything. If that's too much, drop it and use one of the following options.
+
+Individual methods may be printed:
+
+CompileCommand=print,*MyClass.myMethod prints assembly for just one method
+CompileCommand=option,*MyClass.myMethod,PrintOptoAssembly (debug build only) produces the old print command output
+CompileCommand=option,*MyClass.myMethod,PrintNMethods produces method dumps
+These options accumulate.
+
+If you get no output, use -XX:+PrintCompilation to verify that your method is getting compiled at all.
+
+Reading the compiler's mind
+
 IDEAS
 =====
 Map: ifPresent/ifAbsent

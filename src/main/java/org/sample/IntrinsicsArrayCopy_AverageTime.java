@@ -19,7 +19,7 @@ import org.openjdk.jmh.annotations.Warmup;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @Fork(1)
-@Warmup(iterations = 2, time = 5, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 5, time = 5, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 2, time = 2, timeUnit = TimeUnit.SECONDS)
 public class IntrinsicsArrayCopy_AverageTime
 {

@@ -16,33 +16,66 @@ import org.openjdk.jmh.annotations.Warmup;
 @Warmup(iterations = 2, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 2, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-@Threads(4)
+@Threads(1)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Benchmark)
 public class LockingCost 
 {
     int x;
-    AtomicInteger xa = new AtomicInteger(0);
+    int x2;
+    int x3;
+    int x4;
+    volatile int v; 
+    final AtomicInteger xa = new AtomicInteger(0);
     
     @Benchmark
-    public void baseline() 
+    public int plainInt() 
     {
+        // this is really garbage of course
         x++;
+        return x;
     }
 
     @Benchmark
-    public void atomic() 
+    public int volatileInt() 
     {
-        xa.incrementAndGet();
+        // this is a little garbage because it is not 
+        // an atomic update
+        v++;
+        return v;
     }
     
     @Benchmark
-    public void locked() 
+    public int atomicInt() 
+    {
+        return xa.incrementAndGet();
+    }
+    
+    @Benchmark
+    public int lockedIntInc() 
     {
         synchronized (this) 
         {
-            x++;
+            x2++;
+            return x2;
         }
     }
+
+    @Benchmark
+    public int lockedIntNewObject() 
+    {
+        synchronized (new Object()) 
+        {
+            x4++;
+            return x4;
+        }
+    }
+    
+    @Benchmark
+    public synchronized int lockedIntMethod() 
+    {
+        x3++;
+        return x3;
+    }    
 }

@@ -25,7 +25,7 @@ import org.openjdk.jmh.annotations.Warmup;
 @Warmup(iterations = 3, time = 3, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 4, time = 1, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-public class LoopUnroll
+public class ProcessorPipeline
 {
     @Param({"10000"})
     int size = 10000;
@@ -46,71 +46,37 @@ public class LoopUnroll
         }
     }
     
-    /**
-     * This is a random function call but with a fixed result
-     * @param size
-     * @return
-     */
-    private int next(final int size)
+    @Benchmark
+    public int singleAdd()
     {
-        return r.nextInt(1) + size;
+        int s1 = 1;
+        
+        for (int i = 0; i < ints.length; i++)
+        {
+            s1 += i;
+        }
+        
+        return s1 + s1;
     }
     
     @Benchmark
-    public int classic()
+    public int doubleAdd()
     {
         int s1 = 1;
-        final int step = next(1);
+        int s2 = 1;
         
         for (int i = 0; i < ints.length; i = i + 1)
         {
             s1 += i;
+            s2 += i;
         }
         
-        return s1 + step;
-    }
-    
-    @Benchmark
-    public int variable()
-    {
-        int s1 = 1;
-        final int step = next(1);
-        
-        for (int i = 0; i < ints.length; i = i + step)
-        {
-            s1 += i;
-        }
-        
-        return s1  + step;
-    }
-    
-    @Benchmark
-    public int manualUnroll()
-    {
-        int s1 = 1;
-        final int step = next(1);
-        
-        for (int i = 0; i < ints.length; i = i + 20)
-        {
-            s1 += i;
-            s1 += i + 1;
-            s1 += i + 2;
-            s1 += i + 3;
-            s1 += i + 4;
-            s1 += i + 5;
-            s1 += i + 6;
-            s1 += i + 7;
-            s1 += i + 8;
-            s1 += i + 9;
-        }
-        
-        return s1  + step;
+        return s1 + s2;
     }
     
     @Test
     public void test()
     {
-        Assert.assertEquals(classic(), variable());
-        Assert.assertEquals(classic(), manualUnroll());
+        Assert.assertEquals(singleAdd(), doubleAdd());
     }
 }

@@ -56,13 +56,13 @@ THE POSSIBILITY OF SUCH DAMAGE.
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13</version>
         </dependency>
         
         <dependency>
 		    <groupId>org.openjdk.jol</groupId>
 		    <artifactId>jol-core</artifactId>
-		    <version>0.9</version>
+		    <version>0.10</version>
         </dependency>
          
     </dependencies>
@@ -73,7 +73,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
         <!--
             JMH version to use with this project.
           -->
-        <jmh.version>1.21</jmh.version>
+        <jmh.version>1.23</jmh.version>
 
         <!--
             Java source/target to use for compilation.

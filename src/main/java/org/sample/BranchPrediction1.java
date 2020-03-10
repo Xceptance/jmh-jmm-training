@@ -55,7 +55,7 @@ public class BranchPrediction1
     {
         for (int v : array)
         {
-            if (v >= 0)
+            if (v <= 0)
             {
                 bh1.consume(v);
             }

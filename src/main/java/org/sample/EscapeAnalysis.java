@@ -9,7 +9,6 @@ import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
-import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
@@ -23,37 +22,44 @@ import org.openjdk.jmh.annotations.Warmup;
 public class EscapeAnalysis
 {
     final Random r = new Random();
+    final static int SIZE = 64;
     
     @Benchmark
-    public long array63()
+    public int array64()
     {
-        int[] a = new int[63];
+        int[] a = new int[SIZE];
         
         a[0] = r.nextInt();
         a[1] = r.nextInt();
         
-        return a[0] + a[1];
+        a[3] = a[0] + a[1];
+
+        return a[3];
     }
 
     @Benchmark
-    public long array64()
+    public int array65()
     {
-        int[] a = new int[64];
+        int[] a = new int[SIZE + 1];
         
         a[0] = r.nextInt();
         a[1] = r.nextInt();
         
-        return a[0] + a[1];
+        a[3] = a[0] + a[1];
+
+        return a[3];
     }
 
     @Benchmark
-    public long array65()
+    public int[] array64Returned()
     {
-        int[] a = new int[65];
+        int[] a = new int[SIZE];
         
         a[0] = r.nextInt();
         a[1] = r.nextInt();
         
-        return a[0] + a[1];
+        a[3] = a[0] + a[1];
+        
+        return a;
     }
 }

@@ -95,6 +95,7 @@ public class InlineMethodOrNot2
         }
         return sb.toString();
     }
+    
     @Benchmark
     public String inline()
     {
@@ -113,6 +114,7 @@ public class InlineMethodOrNot2
         }
         return sb.toString();
     }  
+    
     @Benchmark
     public String dontInline()
     {
